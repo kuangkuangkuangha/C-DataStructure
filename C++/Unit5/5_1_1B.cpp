@@ -18,6 +18,22 @@ class clock
         {
             cout<<H<<":"<<M<<":"<<S<<endl;
         }
+
+        // 定义构造函数
+        clock(int h=0, int m=0, int s=0)
+        {
+            H=h;
+            M=m;
+            S=s;
+        }
+
+        // 定义析构函数
+        ~ clock()
+        {
+            cout<<"对象已经成功清理了"<<endl;
+        }
+
+
 };
 
 int main()
