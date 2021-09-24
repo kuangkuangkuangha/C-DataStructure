@@ -1,112 +1,89 @@
 #include <iostream>
-#include "config.cpp"
+#include "ArrayConfig.cpp"  //把库函数写到一个文件里，这是自己写的，函数都在里面
 using namespace std;
-const int LIST_INIT_SIZE=5;
-const int LISTINCREMENT=10;
-#define ElemType int
 
-typedef struct 
+
+void BingJi()
 {
-    ElemType *elem;
-    int length;
-    int listsize;
-    int incrementsize;
-}SqList;
+    SqList La, Lb;
 
-// 初始化线性表
-void InitList_Sq(SqList* temp)
-{
-    temp->elem = new ElemType(LIST_INIT_SIZE);
-    temp->length = 5;
-    temp->listsize = LIST_INIT_SIZE;
-    temp->incrementsize = LISTINCREMENT;
-}
+    Init(&La, &Lb);
+    int e;
 
-// 定位元素的位置
-int LocateElem(SqList temp, ElemType e)
-{
-    int addr=1;
-    int*p = temp.elem;
-
-    while(*p!=e && addr<=temp.length)
+    int La_len = ListLength(La);
+    while(ListEmpty(&Lb)==false)
     {
-        p++;
-        addr++;
+        ListDelete(&Lb, 1, &e);
+
+        if(!LocateElem(La, e))
+        {
+            ListInsert(&La, ++La_len, e);
+        }
     }
 
-    if(addr <= temp.length)
-        return addr;
-    else
-        return 0;
+    DestroyList(&Lb);
+    cout<<"并集结果是："<<endl;
+    ListTraverse(La);
 }
 
-// 销毁链表
-void DestroyList(SqList* temp)
+void JiaoJi()
 {
-    delete[] temp->elem;
-    temp->length=0;
-    temp->listsize=0;
+    SqList La, Lb;
+    Init(&La, &Lb);
+
+    SqList Lc;
+    Lc.elem = new int[10];
+    int count=0;
+
+    
+        for(int i=0; i<Lb.length; i++)
+        {
+            if(LocateElem(La, Lb.elem[i]))
+            {
+                Lc.elem[count++]=Lb.elem[i];
+            }
+        }
+
+    Lc.length = count;
+    cout<<"交集结果是:"<<endl;
+    ListTraverse(Lc);
 }
 
-// 插入一个元素
-void InsertList_Sq(SqList* temp, int addr, ElemType e)
+void ChaJi()
 {
+    SqList La,Lb;
 
-    if(addr<1 || addr>temp->length+1)
+    SqList Lc;
+    int count=0;
+    Init(&La, &Lb);
+
+    for(int i=0; i<La.length; i++)
     {
-        ErrorMessage("插入的位置不合法！");
+        if(!LocateElem(Lb, La.elem[i]))
+        {
+            Lc.elem[count++]=La.elem[i];
+        }
     }
 
-    if(temp->length > temp->listsize)
-        increment(temp);
-
-    ElemType* move = &temp->elem[temp->length-1];
-    ElemType* dest = &temp->elem[addr-1];
-    for(;move>=dest; move--)
+    for(int j=0; j<Lb.length; j++)
     {
-        *(move+1)=*move;
-    }
-    *move = e;
-
-    temp->length++;
-
-}
-
-void increment(SqList* temp)
-{
-    ElemType* newArray = new ElemType[LIST_INIT_SIZE+LISTINCREMENT];
-    for(int i=0; i<temp->length; i++)
-        newArray[i] = temp->elem[i];
-
-    delete temp->elem;
-    temp->elem = newArray;
-    temp->listsize+=temp->incrementsize;
-}
-
-
-// 删除元素操作
-void DeleteList_Sq(SqList* temp, int addr)
-{
-    ElemType* move=&temp->elem[addr];
-    ElemType* dest=&temp->elem[temp->length-1];
-
-    for(; move<dest; move++)
-    {
-        *(move-1)=*move;
+        if(!LocateElem(La, Lb.elem[j]))
+        {
+            Lc.elem[count++]=Lb.elem[j];
+        }
     }
 
-    temp->length--;
+    Lc.length=count;
+
+    cout<<"差集结果是："<<endl;
+    ListTraverse(Lc);
 }
 
 
 int main()
 {
-    SqList haha;
-    InitList_Sq(&haha);
-    haha.elem[0]=6;
-    haha.elem[1]=5;
-
-    cout<<LocateElem(haha, 6)<<endl;
-
+    ChaJi();
 }
+
+
 
