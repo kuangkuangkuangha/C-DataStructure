@@ -1,88 +1,93 @@
 #include <iostream>
-#include "ArrayConfig.cpp"  //把库函数写到一个文件里，这是自己写的，函数都在里面
+#include "ArrayConfig.cpp"
 using namespace std;
 
 
-void BingJi()
+void JiaoJi(SqList la, SqList lb)
 {
-    SqList La, Lb;
-
-    Init(&La, &Lb);
-    int e;
-
-    int La_len = ListLength(La);
-    while(ListEmpty(&Lb)==false)
-    {
-        ListDelete(&Lb, 1, &e);
-
-        if(!LocateElem(La, e))
-        {
-            ListInsert(&La, ++La_len, e);
-        }
-    }
-
-    DestroyList(&Lb);
-    cout<<"并集结果是："<<endl;
-    ListTraverse(La);
-}
-
-void JiaoJi()
-{
-    SqList La, Lb;
-    Init(&La, &Lb);
-
-    SqList Lc;
-    Lc.elem = new int[10];
+    SqList lc;
+    lc.elem = new int[10];
     int count=0;
 
-    
-        for(int i=0; i<Lb.length; i++)
+    for(int i=0; i<la.length; i++)
+    {
+        int e=la.elem[i];
+        if(LocateElem(lb, e))
         {
-            if(LocateElem(La, Lb.elem[i]))
-            {
-                Lc.elem[count++]=Lb.elem[i];
-            }
+            lc.elem[count++]=e;
         }
+    }
 
-    Lc.length = count;
-    cout<<"交集结果是:"<<endl;
-    ListTraverse(Lc);
+    lc.length=count;
+
+    cout<<"交集结果是:";
+    ListTraverse(lc);
+    // cout<<">";
 }
 
-void ChaJi()
+
+void BingJi(SqList la, SqList lb)
 {
-    SqList La,Lb;
 
-    SqList Lc;
+    int Len = lb.length;
+    for(int i=0; i<la.length; i++)
+    {
+        int e=la.elem[i];
+        if(!LocateElem(lb, e))
+        {
+            ListInsert(&lb, ++Len, e);
+        }
+    }
+
+    cout<<"并集结果是:";
+    ListTraverse(lb);
+    // cout<<">";
+}
+
+
+void ChaJi(SqList la, SqList lb)
+{
+    SqList lc;
+    lc.elem = new int[10];
     int count=0;
-    Init(&La, &Lb);
 
-    for(int i=0; i<La.length; i++)
+    for(int i=0; i<la.length; i++)
     {
-        if(!LocateElem(Lb, La.elem[i]))
+        if(!LocateElem(lb, la.elem[i]))
         {
-            Lc.elem[count++]=La.elem[i];
+            lc.elem[count++]=la.elem[i];
         }
     }
 
-    for(int j=0; j<Lb.length; j++)
-    {
-        if(!LocateElem(La, Lb.elem[j]))
-        {
-            Lc.elem[count++]=Lb.elem[j];
-        }
-    }
+    lc.length=count;
 
-    Lc.length=count;
-
-    cout<<"差集结果是："<<endl;
-    ListTraverse(Lc);
+    cout<<"差集结果是：";
+    ListTraverse(lc);
+    // cout<<">";
 }
 
 
 int main()
 {
-    ChaJi();
+    SqList La, Lb;
+    Init(&La, &Lb);
+
+    cout<<"*************Result*************"<<endl;
+    cout<<"A = ";
+    ListTraverse(La);
+    cout<<"B = ";
+    ListTraverse(Lb);
+    JiaoJi(La, Lb);
+    BingJi(La, Lb);
+    cout<<endl;
+
+    cout<<"A-B:"<<endl;
+    ChaJi(La, Lb);
+
+    cout<<endl;
+    cout<<"B-A:"<<endl;
+    ChaJi(Lb, La);
+    cout<<"*********************************"<<endl;
 }
 
 

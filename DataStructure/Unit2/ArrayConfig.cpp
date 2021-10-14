@@ -19,25 +19,30 @@ void Init(SqList* La, SqList* Lb)
     Lb->elem=new int[100];
 
     int a,b;
-    cout<<"请输入第一个集合的元素个数:"<<endl;
+    cout<<"*************InputA*************"<<endl;
+    cout<<"numA:";
     cin>>a;
-    cout<<endl;
 
     La->length=a;
+    
+    cout<<"elem = ";
     for(int i=0; i<a; i++)
     {
         cin>>La->elem[i];
     }
 
-    cout<<"请输入第二个集合的元素个数:"<<endl;
+    cout<<"*************InputB*************"<<endl;
+    cout<<"numB:";
     cin>>b;
-    cout<<endl;
 
     Lb->length=b;
+    cout<<"elem = ";
     for(int j=0; j<b; j++)
     {
         cin>>Lb->elem[j];
     }
+
+    cout<<endl;
 }
 
 // 初始化线性表
@@ -198,8 +203,11 @@ void ListDelete(SqList* temp, int i, int *e)
 // 输出线性表中每一元素
 void ListTraverse(SqList temp)
 {
+    cout<<"<";
     for(int i=0; i<temp.length; i++)
     {
-        cout<<temp.elem[i]<<endl;
+        cout<<temp.elem[i]<<" ";
     }
+    cout<<">";
+    cout<<endl;
 }

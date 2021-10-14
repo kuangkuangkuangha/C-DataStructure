@@ -1,19 +1,14 @@
 #include <iostream>
 #include "LinkListConfig.cpp"
 using namespace std;
-
+// 头节点不存储数据
 
 // 求交集
-void JiaoJi()
+void JiaoJi(node* head1, node* head2)
 {
-    node* head1 = new node; 
-    node* head2 = new node;
     node* head3 = new node;     //head3 用来存储结果
     head3->next = NULL;
     int count=0;
-
-    Init(head1);
-    Init(head2);
 
     node* temp = head1->next;
 
@@ -27,56 +22,50 @@ void JiaoJi()
         temp=temp->next;
     }
 
+    cout<<"交集结果为: ";
     ListTraverse(head3);
-
-    DestroyList(head1);
-    DestroyList(head2);
     DestroyList(head3);
-    // DestroyList(temp);
 }
 
 // 求并集
-void BingJi()
+void BingJi(node* head1, node* head2)
 {
-    node* head1 = new node;
-    node* head2 = new node;
-
-    Init(head1);
-    Init(head2);                // 这里不知道有一个什么傻逼BUG
-
-    cout<<"haha";
+    // cout<<"haha1";          // 这里不知道有个什么BUG
     int len1 = ListLength(head1);
+    int len2 = ListLength(head2);
+    // cout<<"haha2";
+    // node* head3 = new node;
+    // head3->next = NULL;
+
+    // node* temp = new node;
+    // cout<<"haha3";
+    // temp = head1->next;
     node* temp = head1->next;
 
+    // cout<<"haha";
     for(int i=0; i<len1; i++)
     {
         int a = temp->data;
         if(!LocateElem(head2, a))
         {
-            ListInsert(head1, ++len1, a);
+            ListInsert(head2, ++len2, a);
         }
         temp = temp->next;
     }
 
-    cout<<"交集结果是："<<endl;
-    ListTraverse(head1);
-
-    DestroyList(head1);
-    DestroyList(head2);
+    cout<<"并集结果是:";
+    ListTraverse(head2);
+    DestroyList(temp);
 }
 
 
 // 求差集
-void ChaJi()
+void ChaJi(node* head1, node* head2)
 {
-    node* head1 = new node;
-    node* head2 = new node;
     node* head3 = new node;
     head3->next = NULL;
     int count=0;
 
-    Init(head1);
-    Init(head2);
 
     node* temp1 = head1->next;
     for(int i=0; i<ListLength(head1); i++)
@@ -89,27 +78,45 @@ void ChaJi()
         temp1 = temp1->next;
     }
 
-    node* temp2 = head2->next;
-    for(int i=0; i<ListLength(head2); i++)
-    {
-        int a = temp2->data;
-        if(!LocateElem(head1, a))
-        {
-            ListInsert(head3, ++count, a);
-        }
-        temp2 = temp2->next;
-    }
 
-    cout<<"差集结果是："<<endl;
+    cout<<"差集结果是: ";
     ListTraverse(head3);
-
-    DestroyList(head1);
-    DestroyList(head2);
     DestroyList(head3);
 }
 
+
 int main()
 {
-    BingJi();
+    node* head1 = new node;
+    node* head2 = new node;
+    
+    cout<<"************InputA*************"<<endl;
+    cout<<"numA: ";
+    Init(head1);
+    cout<<"************InputB*************"<<endl;
+    cout<<"numB: ";
+    Init(head2);
+    cout<<endl;
+
+    
+    cout<<"************Result*************"<<endl;
+    cout<<"A:";
+    ListTraverse(head1);
+    cout<<"B:";
+    ListTraverse(head2);
+    cout<<"A-B";
+    ChaJi(head1, head2);
+
+    cout<<"B-A";
+    ChaJi(head2, head1);
+
+    JiaoJi(head1, head2);
+
+    BingJi(head1, head2);
+
+    cout<<"*******************************"<<endl;
+
+    DestroyList(head1);
+    DestroyList(head2);
     return 0;
 }

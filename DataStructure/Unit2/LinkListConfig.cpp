@@ -14,9 +14,7 @@ typedef struct linklist node;
 void Init(node* head)
 {
     int a,b;
-    cout<<"请输入一组数据的个数："<<endl;
     cin>>a;
-    cout<<endl;
 
     node* temp1=head;
     for(int i=0; i<a; i++)
@@ -30,7 +28,7 @@ void Init(node* head)
     temp1->next=NULL;
 }
 
-// 将数据e插入到第i个元素前面
+// 将数据e插入到第i个元素前面, i可以为0
 void ListInsert(node* head, int i, int e)
 {
     node* pst=head;
@@ -106,14 +104,14 @@ void ListDelete(node* head, int i)
 // 将所有的数据输出来
 void ListTraverse(node* a)
 {
-    cout<<"链表数据为："<<endl;
     node* temp=a->next;
     
     while(temp!=NULL)
     {
-        cout<<temp->data<<endl;
+        cout<<temp->data<<" ";
         temp=temp->next;
     }
+    cout<<endl;
 }
 
 // 销毁链表
