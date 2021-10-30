@@ -28,7 +28,7 @@ void Init(node* head)
     temp1->next=NULL;
 }
 
-// 将数据e插入到第i个元素前面, i可以为0
+// 将数据e插入到第i个元素前面, i可以为1
 void ListInsert(node* head, int i, int e)
 {
     node* pst=head;
@@ -63,6 +63,8 @@ int ListLength(node* head)
 
 
 // 返回 元素在第几个位置
+// eg: 1 2 3 4  
+// 3, 返回3
 int LocateElem(node* La, int e)
 {
     node* temp = La->next;

@@ -1,6 +1,8 @@
 #include <iostream>
 using namespace std;
 
+int num;
+
 struct StuInfo
 {
     int keys[3];
@@ -95,9 +97,12 @@ void RadixSort(StuInfo a[], int num)
 }
 
 
+
+
+
 int main()
 {
-    int num;
+   
     int count=0;
     cout<<"请输入学生的个数:"<<endl;
     cin>>num;
@@ -117,7 +122,6 @@ int main()
     }
 
     RadixSort(a, num);
-    // StuInfo b[3];
 
     for(int i=0; i<num/2; i++)
     {

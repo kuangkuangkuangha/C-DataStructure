@@ -5,18 +5,32 @@ struct Stack
 {
     int* elem;
     int top;
+    int stacksize;
+    int incrementsize;
 };
 
 void InitStack(Stack* temp)
 {
     temp->elem = new int[20];
     temp->top = -1;
+    temp->stacksize = 20;
 }
 
 // 清空栈
-void ClearStack()
+void ClearStack(Stack* temp)
 {
-    
+    temp->top = -1;
+}
+
+// 判断栈是否为空
+bool StackEmpty(Stack* temp)
+{
+    if(temp->top >= 0)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 // 插入元素e为新的栈顶
@@ -39,4 +53,13 @@ void Pop(Stack* temp, int* e)
     }
 
     *e = temp->elem[temp->top--];
+}
+
+void Traverse(Stack* temp)
+{
+    int a = temp->top;
+    while(a >= 0)
+    {
+        cout<<temp->elem[a--]<<" "<<endl;
+    }
 }

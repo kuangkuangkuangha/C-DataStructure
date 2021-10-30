@@ -20,28 +20,62 @@ struct StuInfo
 
 void Init(SqList& a)
 {
-    a.arr = NULL;
+    a.arr = new StuInfo[10];
     a.length = 0;
+    a.listsize = 10;
 }
 
-void InsertSql(SqList& a, StuInfo temp)
+// 放到第h个元素前面
+void InsertSql(SqList& a, int h, StuInfo temp)
 {
+    StuInfo* p = &a.arr[a.length-1];
+    StuInfo* dst = &a.arr[h-1];
     
+    while(p>dst)
+    {
+        *(p+1) = *p;
+        p--;
+    }
+
+    *p = temp;
+    a.length++;
 }
 
-void Input(SqList& a)
+// void Input(SqList& a)
+// {
+//     cout<<"请输入学生的个数:"<<endl;
+//     cin>>a.length;
+//     a.arr = new StuInfo[a.length];
+//     for(int i=0; i<a.length; i++)
+//     {
+//         cout<<"学号:"; cin>>a.arr[i].no;
+//         cout<<"姓名:"; cin>>a.arr[i].name;
+//         cout<<"成绩:"; cin>>a.arr[i].grade;
+//         a.arr[i].keys[0] = a.arr[i].grade/100;
+//         a.arr[i].keys[1] = (a.arr[i].grade/10)%10;
+//         a.arr[i].keys[2] = a.arr[i].grade % 10;
+//         cout<<"----------------"<<endl;
+//     }
+// }
+
+void Input2(SqList& a)
 {
+    int num;
     cout<<"请输入学生的个数:"<<endl;
-    cin>>a.length;
+    cin>>num;
     a.arr = new StuInfo[a.length];
-    for(int i=0; i<a.length; i++)
+    StuInfo temp;
+    for(int i=0; i<num; i++)
     {
-        cout<<"学号:"; cin>>a.arr[i].no;
-        cout<<"姓名:"; cin>>a.arr[i].name;
-        cout<<"成绩:"; cin>>a.arr[i].grade;
-        a.arr[i].keys[0] = a.arr[i].grade/100;
-        a.arr[i].keys[1] = (a.arr[i].grade/10)%10;
-        a.arr[i].keys[2] = a.arr[i].grade % 10;
+        cout<<"学号:"; cin>>temp.no;
+        cout<<"姓名:"; cin>>temp.name;
+        cout<<"成绩:"; cin>>temp.grade;
+        temp.keys[0] = temp.grade/100;
+        temp.keys[1] = (temp.grade/10)%10;
+        temp.keys[2] = temp.grade % 10;
+
+        InsertSql(a, 1, temp);
+    
         cout<<"----------------"<<endl;
     }
 }
@@ -109,6 +143,12 @@ void RadixPass(StuInfo a[], StuInfo b[], int n, int i)
 
 }
 
+// void Insert(SqList& a, int i, StuInfo temp)
+// {
+//     a.arr[i] = temp;
+//     a.length ++;
+// }
+
 
 // n是数据的个数
 void RadixSort(StuInfo a[], int num)
@@ -147,7 +187,7 @@ int main()
     SqList a;
 
     Init(a);
-    Input(a);
+    Input2(a);
     // Show(a);
 
     RadixSort(a.arr, a.length);
