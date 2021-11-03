@@ -57,17 +57,4 @@ int main()
 
     knapsack(w, T, num);
 
-    // Stack a;
-    // InitStack(&a);
-    // Push(&a,8);
-    // Push(&a,7);
-    // Push(&a, 6);
-    // Push(&a, 4);
-
-    // int e;
-    // Pop(&a, &e);
-    // Traverse(&a);
-    // cout<<"pop:"<<e;
-    // Pop(&a, &e);
-
 }

@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+// 链队列
 // 头节点不存数据
 
 struct LinkList
@@ -49,6 +50,15 @@ void Init(Quene& temp)
 
     temp.rear = cur;
 }  
+
+
+// 初始化队列
+void Init2(Quene& temp)
+{   
+    
+    temp.front = temp.rear = new Node;
+
+}
 
 
 // 插入元素e为链队列temp中新的队尾元素(入队)
