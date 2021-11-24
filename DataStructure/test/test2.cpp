@@ -1,6 +1,4 @@
 #include <iostream>
-// 顺序队列
-// #include "../Unit4/QueneConfig.cpp"
 using namespace std;
 
 typedef struct Sql_Quene
@@ -21,7 +19,7 @@ typedef struct Sql_Stack
 // 初始化队列
 void InitQuene(Quene& Q)
 {
-    Q.elem = new char[10];
+    Q.elem = new char[20];
     Q.front = 0;
     Q.rear = 0;
 }
@@ -35,10 +33,9 @@ void EnQuene(Quene& Q, char e)
 }
 
 // 出队
-void DeQuene(Quene& Q, char& e)
+char DeQuene(Quene& Q)
 {
-    e = Q.elem[Q.front];
-    Q.front ++;
+    return Q.elem[Q.front++];
 }
 
 // 输出队列元素
@@ -48,7 +45,7 @@ void TraverseQuene(Quene& Q)
     int end = Q.rear;
     while(start != end)
     {
-        cout<<Q.elem[--end]<<" ";
+        cout<<Q.elem[start++]<<"*";
     }
     cout<<endl;
 }
@@ -58,10 +55,18 @@ void GetQueneHead(Quene& Q, char& e)
     e = Q.elem[Q.front++];
 }
 
+int QueneEmpty(Quene& Q)
+{
+    if(Q.front == Q.rear)
+        return 1;
+
+    return 0;
+}
+
 // ********** Stack **************
 void InitStack(Stack& S)
 {
-    S.elem = new char [10];
+    S.elem = new char [20];
     S.top = -1;
 }
 
@@ -70,90 +75,116 @@ void Push(Stack& S, char e)
     S.elem[++S.top] = e;
 }
 
-void Pop(Stack& S, char& e)
+char Pop(Stack& S)
 {
-    S.elem[--S.top] = e;
+    return S.elem[--S.top];
 }
 
 int StackEmpty(Stack& S)
 {
-    if(S.top>=0)
+    if(S.top < 0)
         return 1;
     
     return 0;
 }
 
-void GetStackTop(Stack& S, char& e)
+char GetStackTop(Stack& S)
 {
+    int a=S.top;
     if(S.top<0)
     {
         cout<<"栈已经空了"<<endl;
     }
 
-    e = S.elem[--S.top];
+    return S.elem[a];
+}
+
+void StackTraverse(Stack& S)
+{
+    cout<<"输出栈元素:"<<endl;
+    int a = S.top;
+    while(a >= 0)
+    {
+        cout<<S.elem[a--]<<" ";
+    }
+    cout<<endl;
 }
 
 
-void Input(Quene& QP, Quene QS)
+void Input(Quene& QP)
 {
     char a;
-    cout<<"请输入你要判断的序列:"<<endl;
+    cout<<"请输入你的序列:"<<endl;
     cin>>a;
     while(a!='#')
     {
         EnQuene(QP, a);
         cin>>a;
     }
-    TraverseQuene(QP);
-
-    cout<<"请输入你要输入的序列:"<<endl;
-    char b;
-    cin>>b;
-    while(b!='#')
-    {
-        EnQuene(QS, b);
-        cin>>b;
-    }
-
-    TraverseQuene(QS);
 }
 
 void Work()
 {
     Quene a;
     Quene b;
-    Stack S;
-    char e;
+    InitQuene(a); // 输入序列
+    InitQuene(b); // 判断序列
 
-    InitQuene(a);  // 被判断的
-    InitQuene(b);  // 输入的
+    Input(a);
+    Input(b);
+    TraverseQuene(a);
+    TraverseQuene(b);
 
-    Input(a, b);
+    Stack s;
+    InitStack(s);
 
-    InitStack(S);
+    char temp;
+    char s_top;
+    char E;
 
-    DeQuene(b, e);
-    Pop(S, e);
-
-    char Ahead;
-    char Bhead;
-    GetQueneHead(a, Ahead);
-
-    while(!StackEmpty(S))
+    int i=0;
+    while(!QueneEmpty(a) || (QueneEmpty(a) && !QueneEmpty(b)))
     {
+        E = DeQuene(b);  // 从判断序列中取出一个数进行判断
+        // cout<<"取出来的字符是:"<<E<<endl;
+
+        if(!StackEmpty(s))
+        {
+            s_top = GetStackTop(s);
+            // cout<<"栈顶字符是:"<<s_top<<endl;
+            // cout<<"栈中元素有:"<<endl;
+            StackTraverse(s);
+            if( s_top==E )          // 如果一开始进来栈不空，可以看看栈顶元素是不是判断要判断的字母
+            {
+                Pop(s);
+                continue;
+            }
+        }
+
         do
         {
-            DeQuene(b, Bhead);
-            Push(S, Bhead);
+            if(QueneEmpty(a))
+                break;
+            temp = DeQuene(a);
+            // cout<<"a出栈字符是:"<<temp<<endl;
+            // cout<<temp<<"***"<<endl;
+            Push(s, temp);
+            // cout<<"入站元素是:"<<s.elem[0]<<endl;
+        } while (temp != E);
 
-        }while(Ahead!=Bhead);
+        if(GetStackTop(s)==E)
+            Pop(s);
 
-        
     }
 
+    if(StackEmpty(s))
+        cout<<"its ok!"<<endl;
+    else
+        cout<<"not ok!"<<endl;
 }
+
 
 int main()
 {
-    Work();
+    Work(); // 一个小BUG，fedcba 和 cbadfe 没法判断  (现在修好了)
 }
